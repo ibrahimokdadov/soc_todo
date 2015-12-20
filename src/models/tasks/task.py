@@ -5,11 +5,11 @@ from src.models.folders import constants
 
 
 class Task(object):
-    def __init__(self, title, description, due_date, folder, user_id, _id=None):
+    def __init__(self, title, description, due_date, folder_id, user_id, _id=None):
         self.title = title
         self.description = description
         self.due_date = due_date
-        self.folder = folder
+        self.folder_id = folder_id
         self.user_id = user_id
         self.is_done = False
         self._id = uuid.uuid4().hex if _id is None else _id
@@ -26,7 +26,7 @@ class Task(object):
             'title': self.title,
             'description': self.description,
             'due_date': self.due_date,
-            'folder': self.folder,
+            'folder': self.folder_id,
             'user_id': self.user_id,
             'is_done': self.is_done,
             '_id': self._id
