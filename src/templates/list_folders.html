@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container form-width">
+    <h1 class="text-center"> Folders </h1>
+    {% if message is defined %}
+    <h4 class="text-center"><span class="label label-danger">{{ message }}</span></h4>
+    {% endif %}
+    </div>
+    <a href="/user/folder/add"><button class="btn btn-success">Add Folder</button></a>
+    {% if folders|length > 0 %}
+        {% for folder in folders %}
+        <div class="col-lg-3 col-md-4 col-xs-6 thumb">
+        <a href="/user/folder/detail/{{folder._id}}"><h3>{{ folder.title }}</h3></a>
+                <p>Description: {{ folder.description }}</p>
+
+                <hr>
+        </div>
+
+        {% endfor %}
+    {% else %}
+        <h4>You did not add any folder yet; Let get productive add one now...</h4>
+    {% endif %}
+
+{% endblock %}
