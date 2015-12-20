@@ -2,6 +2,7 @@ import uuid
 import src.models.folders.constants as FolderConstants
 from src.common.database import Database
 import src.models.folders.errors as FolderErrors
+from src.models.tasks.task import Task
 
 __author__ = 'team_project_2015'
 
@@ -39,3 +40,7 @@ class Folder(object):
             return cls(**folder)
         else:
             raise FolderErrors.FolderNotExistError("Folder does not exist")
+
+    def add_task(self, title, description, due_date):
+        task = Task(title=title, description=description, due_date=due_date, folder_id=self._id, user_id=self.user_id)
+        task.save_to_mongo()
