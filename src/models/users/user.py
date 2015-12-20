@@ -1,7 +1,9 @@
 import uuid
 
+from src.common.database import Database
 from src.models.folders.folder import Folder
 from src.models.tasks.task import Task
+import src.models.users.constants as UserConstants
 
 
 class User(object):
@@ -22,3 +24,20 @@ class User(object):
     def add_new_folder(self, title, description):
         new_folder = Folder(title=title, description=description, user_id=self._id)
         new_folder.save_to_mongo()
+
+    @classmethod
+    def get_user_by_email(cls, email):
+        user = Database.find_one(UserConstants.COLLECTION, {"email": email})
+        if user is not None:
+            return cls(**user)
+
+    def json(self):
+        return {
+            "email": self.email,
+            "password": self.password,
+            "name": self.name,
+            "_id": self._id
+        }
+
+    def save_to_mongo(self):
+        Database.insert(UserConstants.COLLECTION, self.json())
