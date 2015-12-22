@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for
+from flask import Flask, render_template, url_for, session
 
 from src.common.database import Database
 
@@ -8,6 +8,7 @@ app = Flask(__name__)
 app.secret_key = 'team-project-2015'
 
 from src.models.folders.views import folder_blueprints
+
 app.register_blueprint(folder_blueprints)
 
 
@@ -19,6 +20,13 @@ def initialize_db():
 @app.route('/')
 def index():
     return render_template("home.html")
+
+
+@app.route('/logout')
+def logout():
+    session['email'] = None
+    return render_template("home.html")
+
 
 if __name__ == "__main__":
     app.run(port=4555, debug=True)
