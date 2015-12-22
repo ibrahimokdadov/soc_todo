@@ -17,7 +17,6 @@ def list_folders():
             return render_template("login.html", message="You must be logged in")
         else:
             user = User.get_user_by_email(session['email'])
-            print(user._id)
             folders = Folder.get_folders_by_user_id(user._id)
             # TODO: If folders is none display no folder exist message else return
             return render_template("list_folders.html", folders=folders)
