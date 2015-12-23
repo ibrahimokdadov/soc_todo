@@ -34,3 +34,17 @@ def add_folder():
         folder = Folder(title=title, description=description, user_id=user._id)
         folder.save_to_mongo()
 
+
+@folder_blueprints.route('/user/folder/<string:folder_id>/task/add', methods=['POST', 'GET'])
+def add_task(folder_id):
+    if request.method == 'GET':
+        return render_template("add_task.html", folder_id=folder_id)
+    else:
+        folder = Folder.get_folder_by_id(folder_id)
+        title = request.form['title']
+        description = request.form['description']
+        due_date = request.form['due_date']
+
+        folder.add_task(title, description, due_date)
+        return render_template("folder_detail.html")
+

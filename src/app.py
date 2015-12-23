@@ -1,15 +1,16 @@
-from flask import Flask, render_template, url_for, session
+from flask import Flask, render_template, session
 
 from src.common.database import Database
+from src.models.folders.views import folder_blueprints
+from src.models.tasks.views import task_blueprint
 
 __author__ = 'team_project_2015'
 
 app = Flask(__name__)
 app.secret_key = 'team-project-2015'
 
-from src.models.folders.views import folder_blueprints
-
 app.register_blueprint(folder_blueprints)
+app.register_blueprint(task_blueprint)
 
 
 @app.before_first_request
