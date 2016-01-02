@@ -1,5 +1,7 @@
 import uuid
 
+from flask import session
+
 from src.common.database import Database
 from src.models.folders.folder import Folder
 from src.models.tasks.task import Task
@@ -30,6 +32,17 @@ class User(object):
         user = Database.find_one(UserConstants.COLLECTION, {"email": email})
         if user is not None:
             return cls(**user)
+
+    @classmethod
+    def register(cls, email, password, name):
+        user = cls.get_user_by_email(email)
+        if user is None:
+            new_user = cls(email, password, name)
+            new_user.save_to_mongo()
+            session['email'] = email
+            return True
+        else:
+            return False
 
     def json(self):
         return {
