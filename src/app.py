@@ -1,8 +1,8 @@
-from flask import Flask, render_template, url_for, session, request
+from flask import Flask, render_template, url_for, session, request, make_response
 
 from src.common.database import Database
 from src.models.users.user import User
-from src.models.folders.views import folder_blueprints
+from src.models.folders.views import folder_blueprints, list_folders
 
 __author__ = 'team_project_2015'
 
@@ -33,8 +33,10 @@ def register_user():
     email = request.form['username_email']
     password = request.form['password']
     name = request.form['username_name']
-    User.register(email, password, name)
-    return render_template("home.html", email=session['email'])
+    if User.register(email, password, name) is True:
+        return make_response(list_folders())
+    else:
+        return render_template("register.html", message="User with the same email exist. Try another email")
 
 
 @app.route('/logout')
