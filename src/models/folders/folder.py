@@ -30,17 +30,22 @@ class Folder(object):
         folders = Database.find(FolderConstants.COLLECTION, {"user_id": user_id})
         if folders is not None:
             return [cls(**folder) for folder in folders]
-        else:
-            raise FolderErrors.FolderNotExistError("No Folders exist")
 
     @classmethod
     def get_folder_by_id(cls, folder_id):
         folder = Database.find_one(FolderConstants.COLLECTION, {"_id": folder_id})
         if folder is not None:
             return cls(**folder)
-        else:
-            raise FolderErrors.FolderNotExistError("Folder does not exist")
+
+    @classmethod
+    def get_folder_by_title(cls, title, user_id):
+        folder = Database.find_one(FolderConstants.COLLECTION, {"$and":[{"title": title}, {"user_id": user_id}]})
+        if folder is not None:
+            return cls(**folder)
 
     def add_task(self, title, description, due_date):
         task = Task(title=title, description=description, due_date=due_date, folder_id=self._id, user_id=self.user_id)
         task.save_to_mongo()
+
+    def remove_item(self):
+        Database.remove(FolderConstants.COLLECTION, {"_id": self._id})

@@ -1,7 +1,7 @@
 import uuid
 
 from src.common.database import Database
-from src.models.folders import constants
+import src.models.tasks.constants as TaskConstants
 
 
 class Task(object):
@@ -18,7 +18,7 @@ class Task(object):
         self.is_done = True
 
     def save_to_mongo(self):
-        Database.insert(collection=constants.TASKS_COLLECTION,
+        Database.insert(collection=TaskConstants.COLLECTION,
                         data=self.json())
 
     def json(self):
@@ -35,5 +35,5 @@ class Task(object):
 
     @classmethod
     def get_task_by_id(cls, task_id):
-        task_data = Database.find_one(collection=constants.TASKS_COLLECTION, query={'_id': task_id})
+        task_data = Database.find_one(collection=TaskConstants.COLLECTION, query={'_id': task_id})
         return cls(**task_data)
