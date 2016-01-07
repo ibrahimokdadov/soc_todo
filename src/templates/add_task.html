@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <h1 class="center-block">Add new Task </h1>
+    <form id="new-folder-form" action="/user/folder/task/add/{{folder_id}}" method="post">
+        {% if message is defined %}
+        <h4 class="text-center"><span class="label label-danger">{{ message }}</span></h4>
+        {% endif %}
+        <div class="form-group">
+            <label for="title">Title</label>
+            <input type="text" id="title" name="title" class="form-control" placeholder="Example: read 10 pages of book 2">
+        </div>
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea type="text" id="description" name="description" class="form-control"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="due_date">Due Date</label>
+            <textarea type="text" id="due_date" name="due_date" class="form-control"></textarea>
+        </div>
+
+         <button type="submit" id="submit-button" class="btn btn-primary">Add Task</button>
+    </form>
+</div>
+{% endblock %}

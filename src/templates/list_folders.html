@@ -14,7 +14,7 @@
 {% if folders|length > 0 %}
 {% for folder in folders %}
 <div class="col-md-12">
-    <a href="/user/folder/detail/{{folder._id}}"><h3>{{ folder.title }}</h3></a>
+    <a href="/user/folder/tasks/{{folder._id}}"><h3>{{ folder.title }}</h3></a>
     <p>Description: {{ folder.description }}</p>
 
     <a class="label label-danger" href="/user/folder/delete/{{folder._id}}">Delete</a>

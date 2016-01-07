@@ -1,6 +1,7 @@
 from flask import Flask, render_template, url_for, session, request, make_response
 
 from src.common.database import Database
+from src.models.tasks.views import task_blueprints
 from src.models.users.user import User
 from src.models.folders.views import folder_blueprints, list_folders
 
@@ -11,6 +12,7 @@ app.secret_key = 'team-project-2015'
 
 
 app.register_blueprint(folder_blueprints)
+app.register_blueprint(task_blueprints)
 
 
 @app.before_first_request
