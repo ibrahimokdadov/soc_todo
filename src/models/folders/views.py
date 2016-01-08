@@ -1,6 +1,7 @@
 from flask import Blueprint, session, render_template, request, make_response
 
 from src.models.folders.folder import Folder
+from src.models.tasks.task import Task
 from src.models.users.user import User
 
 __author__ = 'team_project_2015'
@@ -15,10 +16,14 @@ def list_folders(message=None):
     else:
         user = User.get_user_by_email(session['email'])
         folders = Folder.get_folders_by_user_id(user._id)
+        folder_tasks_count = {}
+        for folder in folders:
+            tasks = Task.get_tasks_count(folder._id)
+            folder_tasks_count[folder] = tasks
         if message is None:
-            return render_template("list_folders.html", folders=folders)
+            return render_template("list_folders.html", folders=folder_tasks_count)
         else:
-            return render_template("list_folders.html", folders=folders, message=message)
+            return render_template("list_folders.html", folders=folder_tasks_count, message=message)
 
 
 @folder_blueprints.route('/user/folder/add', methods=['POST', 'GET'])

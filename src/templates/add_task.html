@@ -1,5 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
+<link href="//cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/build/css/bootstrap-datetimepicker.css"
+      rel="stylesheet">
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
+
 <div class="container">
     <h1 class="center-block">Add new Task </h1>
     <form id="new-folder-form" action="/user/folder/task/add/{{folder_id}}" method="post">
@@ -8,7 +13,8 @@
         {% endif %}
         <div class="form-group">
             <label for="title">Title</label>
-            <input type="text" id="title" name="title" class="form-control" placeholder="Example: read 10 pages of book 2">
+            <input type="text" id="title" name="title" class="form-control"
+                   placeholder="Example: read 10 pages of book 2">
         </div>
         <div class="form-group">
             <label for="description">Description</label>
@@ -16,11 +22,23 @@
         </div>
 
         <div class="form-group">
-            <label for="due_date">Due Date</label>
-            <textarea type="text" id="due_date" name="due_date" class="form-control"></textarea>
+            <label for="datetimepicker">Due Date</label>
+            <div class='input-group date' id='datetimepicker'>
+                <input type='text' id="due_date" name="due_date" class="form-control"/>
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+            </div>
         </div>
-
-         <button type="submit" id="submit-button" class="btn btn-primary">Add Task</button>
+        <button type="submit" id="submit-button" class="btn btn-primary">Add Task</button>
     </form>
 </div>
+<script type="text/javascript">
+            $(function () {
+                $('#datetimepicker').datetimepicker({
+                    locale: 'en',
+                    format: 'DD/MM/YYYY HH:mm'
+                });
+            });
+</script>
 {% endblock %}

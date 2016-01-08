@@ -43,3 +43,8 @@ class Task(object):
         tasks = Database.find(collection=TaskConstants.COLLECTION, query={'folder_id': folder_id})
         if tasks is not None:
             return [cls(**task) for task in tasks]
+
+    @staticmethod
+    def get_tasks_count(folder_id):
+        tasks = Database.find_count(TaskConstants.COLLECTION, {"folder_id": folder_id})
+        return tasks

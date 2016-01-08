@@ -35,3 +35,7 @@ class Database(object):
     @staticmethod
     def remove(collection, query):
         return Database.DB[collection].remove(query)
+
+    @staticmethod
+    def find_count(collection, query):
+        return Database.DB[collection].find(query).count()
