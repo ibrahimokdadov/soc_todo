@@ -1,28 +1,37 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="container form-width">
-    <h1 class="text-center"> Folders </h1>
+    <h1 class="text-center"><i class="fa fa-folder-open-o"></i> Folders </h1>
     {% if message is defined %}
     <h4 class="text-center"><span class="label label-danger">{{ message }}</span></h4>
     {% endif %}
 </div>
-<div class="col-md-12">
-    <a href="/user/folder/add">
-        <button class="btn btn-success">Add Folder</button>
-    </a>
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="col-md-12">
+            <a href="/user/folder/add">
+                <button class="btn btn-success">Add Folder</button>
+            </a>
+        </div>
+    </div>
 </div>
 {% if folders|length > 0 %}
-{% for folder in folders %}
+{% for folder, count in folders.items() %}
 <div class="col-md-12">
-    <a href="/user/folder/tasks/{{folder._id}}"><h3>{{ folder.title }}</h3></a>
+    <a href="/user/folder/tasks/{{folder._id}}"><h3>{{ folder.title }}
+        {% if count == 0 %}
+        <span class="badge">this one is empty!</span></h3>
+        {% else %}
+        <span class="badge">{{count}} tasks</span></h3>
+        {% endif %}
+
+    </a>
     <p>Description: {{ folder.description }}</p>
     <hr>
 </div>
-
-
 {% endfor %}
 {% else %}
-<h4>You did not add any folder yet; Let get productive add one now...</h4>
+<h4>You did not add any folders yet; Let's get productive add one now...</h4>
 {% endif %}
 
 {% endblock %}

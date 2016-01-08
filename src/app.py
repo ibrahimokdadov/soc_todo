@@ -10,7 +10,6 @@ __author__ = 'team_project_2015'
 app = Flask(__name__)
 app.secret_key = 'team-project-2015'
 
-
 app.register_blueprint(folder_blueprints)
 app.register_blueprint(task_blueprints)
 
