@@ -62,3 +62,22 @@ def delete_item(folder_id):
         return make_response(list_folders("Folder could not be located"))
     else:
         return render_template("login.html", message="You must be logged-in to remove items.")
+
+
+@folder_blueprints.route('/user/folder/update/title', methods=['GET', 'POST'])
+def update_title():
+    #TODO: fix the update not to make response because it is not used.
+    folder_id = request.form['pk']
+    value = request.form['value']
+    folder = Folder.get_folder_by_id(folder_id)
+    folder.update_folder("title", value)
+    return make_response(list_folders(message="Folder title updated successfully"))
+
+
+@folder_blueprints.route('/user/folder/update/description', methods=['GET', 'POST'])
+def update_description():
+    folder_id = request.form['pk']
+    value = request.form['value']
+    folder = Folder.get_folder_by_id(folder_id)
+    folder.update_folder("description", value)
+    return make_response(list_folders(message="Folder description updated successfully"))

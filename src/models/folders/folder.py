@@ -49,3 +49,6 @@ class Folder(object):
 
     def remove_item(self):
         Database.remove(FolderConstants.COLLECTION, {"_id": self._id})
+
+    def update_folder(self, attribute_name, attribute_value):
+        Database.update_one(FolderConstants.COLLECTION, {"_id": self._id}, {"$set": {attribute_name: attribute_value}})

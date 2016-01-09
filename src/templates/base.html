@@ -8,6 +8,10 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css')}}">
     <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    {% if session['email'] %}
+    <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
+    {% endif %}
+
 </head>
 <body>
 <div class="navbar navbar-inverse navbar-twitch" role="navigation">
@@ -140,4 +144,6 @@
     </div>
 </div>
 </body>
+<script src="{{ url_for('static', filename='js/js.js')}}"></script>
+
 </html>
