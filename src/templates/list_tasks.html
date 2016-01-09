@@ -46,7 +46,7 @@
 {% if tasks|length > 0 %}
 {% for task in tasks %}
 <div class="col-md-12">
-    <a href="/user/folder/task/detail/{{task._id}}"><h3>{{ task.title }}</h3></a>
+    <a href="/user/folder/task/detail/{{task._id}}"><h4>{{ task.title }}</h4></a>
     <p>Due Date: <i class="fa fa-clock-o"></i> {{ task.due_date }}</p>
     <hr>
 </div>

@@ -18,15 +18,43 @@
 {% if folders|length > 0 %}
 {% for folder, count in folders.items() %}
 <div class="col-md-12">
-    <a href="/user/folder/tasks/{{folder._id}}"><h3>{{ folder.title }}
-        {% if count == 0 %}
-        <span class="badge">this one is empty!</span></h3>
+    <a href="/user/folder/tasks/{{folder._id}}">
+        <h2>{{ folder.title }}
+            {% if count == 0 %}
+            <span class="badge">this one is empty!</span>
+        </h2>
         {% else %}
         <span class="badge">{{count}} tasks</span></h3>
         {% endif %}
-
     </a>
-    <p>Description: {{ folder.description }}</p>
+    <a href="#" id="x-folder-title-{{folder.title}}" data-type="text" data-url="/user/folder/update/title"
+       data-pk="{{folder._id}}"
+       data-title="Changing folder title"><i class="fa fa-pencil-square-o"></i></a>
+    <script>
+    $('#x-folder-title-'+'{{folder.title}}').editable({
+            placement: "top",
+            success: function(response, newValue) {
+                    location.reload();
+                },
+            error: function (errors) {
+            }
+        });
+
+    </script>
+
+    <p><h6>Description:</h6> <a href="#" id="x-folder-description-{{folder.title}}" data-type="textarea" data-url="/user/folder/update/description"
+                       data-pk="{{folder._id}}"
+                       data-title="Changin description">{{ folder.description }}</a> </p>
+
+    <script>
+    $('#x-folder-description-'+'{{folder.title}}').editable({
+            placement: "right",
+            error: function (errors) {
+            }
+        });
+
+    </script>
+
     <hr>
 </div>
 {% endfor %}
