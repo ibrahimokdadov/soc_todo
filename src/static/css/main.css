@@ -106,3 +106,5 @@ margin-left:25px;
 .navbar-twitch.open ~ .navbar-twitch-toggle > .nav-close {
 	display: inline-block;
 }
+
+.large-num { margin-top:0px;font-size: 54px; }
