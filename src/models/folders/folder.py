@@ -39,7 +39,7 @@ class Folder(object):
 
     @classmethod
     def get_folder_by_title(cls, title, user_id):
-        folder = Database.find_one(FolderConstants.COLLECTION, {"$and":[{"title": title}, {"user_id": user_id}]})
+        folder = Database.find_one(FolderConstants.COLLECTION, {"$and": [{"title": title}, {"user_id": user_id}]})
         if folder is not None:
             return cls(**folder)
 
