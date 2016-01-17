@@ -14,16 +14,26 @@ def list_folders(message=None):
     if session.get('email') is None:
         return render_template("login.html", message="You must be logged in")
     else:
-        user = User.get_user_by_email(session['email'])
-        folders = Folder.get_folders_by_user_id(user._id)
-        folder_tasks_count = {}
-        for folder in folders:
-            tasks = Task.get_tasks_count(folder._id)
-            folder_tasks_count[folder] = tasks
-        if message is None:
-            return render_template("list_folders.html", folders=folder_tasks_count)
+        if (session.get('productivity') is not None) and (session['productivity'] == 1):
+            user = User.get_user_by_email(session['email'])
+            folders = Folder.get_folders_by_user_id(user._id)
+            tasks_list={}
+            #TODO: display passed undone tasks
+            if folders is not None:
+                for folder in folders:
+                    tasks_list[folder] = len(Task.get_future_three_tasks(folder._id))
+                return render_template("list_folders.html", folders=tasks_list)
         else:
-            return render_template("list_folders.html", folders=folder_tasks_count, message=message)
+            user = User.get_user_by_email(session['email'])
+            folders = Folder.get_folders_by_user_id(user._id)
+            folder_tasks_count = {}
+            for folder in folders:
+                tasks = Task.get_tasks_count(folder._id)
+                folder_tasks_count[folder] = tasks
+            if message is None:
+                return render_template("list_folders.html", folders=folder_tasks_count)
+            else:
+                return render_template("list_folders.html", folders=folder_tasks_count, message=message)
 
 
 @folder_blueprints.route('/user/folder/add', methods=['POST', 'GET'])

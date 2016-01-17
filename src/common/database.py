@@ -39,3 +39,7 @@ class Database(object):
     @staticmethod
     def find_count(collection, query):
         return Database.DB[collection].find(query).count()
+
+    @staticmethod
+    def find_limit(collection, query):
+        return Database.DB[collection].find(query).limit(3)
