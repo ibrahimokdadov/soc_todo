@@ -1,3 +1,4 @@
+import collections
 from flask import Blueprint, session, render_template, request, make_response
 
 from src.models.folders.folder import Folder
@@ -11,14 +12,15 @@ folder_blueprints = Blueprint('folders', __name__)
 
 @folder_blueprints.route('/user/folders')
 def list_folders(message=None):
+    #TODO: list ascending
     if session.get('email') is None:
         return render_template("login.html", message="You must be logged in")
     else:
         if (session.get('productivity') is not None) and (session['productivity'] == 1):
             user = User.get_user_by_email(session['email'])
             folders = Folder.get_folders_by_user_id(user._id)
-            tasks_list={}
-            #TODO: display passed undone tasks
+            tasks_list = {}
+            # TODO: display passed undone tasks
             if folders is not None:
                 for folder in folders:
                     tasks_list[folder] = len(Task.get_future_three_tasks(folder._id))
@@ -76,7 +78,7 @@ def delete_item(folder_id):
 
 @folder_blueprints.route('/user/folder/update/title', methods=['GET', 'POST'])
 def update_title():
-    #TODO: fix the update not to make response because it is not used.
+    # TODO: fix the update not to make response because it is not used.
     folder_id = request.form['pk']
     value = request.form['value']
     folder = Folder.get_folder_by_id(folder_id)
@@ -91,3 +93,14 @@ def update_description():
     folder = Folder.get_folder_by_id(folder_id)
     folder.update_folder("description", value)
     return make_response(list_folders(message="Folder description updated successfully"))
+
+
+@folder_blueprints.route('/user/productivity/level1')
+def productivity_level_one():
+    session['productivity'] = 1
+    return make_response(list_folders())
+
+@folder_blueprints.route('/user/productivity/level1/off')
+def productivity_level_one_off():
+    session['productivity'] = None
+    return make_response(list_folders())

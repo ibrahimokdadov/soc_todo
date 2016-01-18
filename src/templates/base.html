@@ -24,7 +24,7 @@
         </div>
         <div class="">
             <ul class="nav navbar-nav">
-                <li >
+                <li>
                     <a href="/">
 						<span class="small-nav" data-toggle="tooltip" data-placement="right" title="Home">
 							<span class="glyphicon glyphicon-home"></span>
@@ -95,7 +95,7 @@
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <li class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav">
-                            <li >
+                            <li>
                                 <a href="/user/folders">View Folders <span class="sr-only">(current)</span>
                                 </a>
                             </li>
@@ -111,10 +111,21 @@
                         </ul>
 
                         <ul class="navbar-form navbar-right">
-                                <div class="form-group">
+                            {% if session['productivity'] == 1 %}
+                            <div class="form-group">
                                 <h4>
                                  <span class="label label-warning">
-                                    You are logged-in as: <span class="label label-default">{{ session['email'] }}</span>
+                                     Productivity level: <span
+                                         class="label label-default">{{session['productivity']}}</span>
+                                 </span>
+                                </h4>
+                            </div>
+                            {% endif %}
+                            <div class="form-group">
+                                <h4>
+                                 <span class="label label-warning">
+                                    You are logged-in as: <span
+                                         class="label label-default">{{ session['email'] }}</span>
                                  </span>
                                 </h4>
                             </div>
