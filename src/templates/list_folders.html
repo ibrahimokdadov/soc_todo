@@ -12,6 +12,16 @@
             <a href="/user/folder/add">
                 <button class="btn btn-success">Add Folder</button>
             </a>
+
+            {% if session['productivity'] == 1 %}
+            <a href="/user/productivity/level1/off">
+                <button class="btn btn-primary">Enable Normal Mode</button>
+            </a>
+            {% else %}
+            <a href="/user/productivity/level1">
+                <button class="btn btn-warning">Enable Productivity Level 1</button>
+            </a>
+            {% endif %}
         </div>
     </div>
 </div>
@@ -22,7 +32,6 @@
 {% if rowCounter == 1%}
     <div class="row row-eq-height ">
         {% endif %}
-
             <div class="col col-lg-4">
                 <div class="well">
                 <div class="row row-eq-height">
@@ -32,7 +41,6 @@
                         {% else %}
                         <span class="badge large-num">{{count}} </span>
                         {% endif %}
-
                     </div>
 
                     <div class="col-md-8 col-md-pull-4">
