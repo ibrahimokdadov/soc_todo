@@ -19,21 +19,21 @@ def view_tasks(folder_id):
             tasks = Task.get_future_three_tasks(folder_id)
             #TODO: display passed undone tasks
             if tasks is not None:
-                return render_template("list_tasks.html", folder_id=folder_id, tasks=tasks)
+                return render_template("tasks/list_tasks.html", folder_id=folder_id, tasks=tasks)
             else:
-                return render_template("list_tasks.html")
+                return render_template("tasks/list_tasks.html")
         else:
             tasks = Task.get_tasks_by_folder_id(folder_id)
             if tasks is not None:
-                return render_template("list_tasks.html", folder_id=folder_id, tasks=tasks)
+                return render_template("tasks/list_tasks.html", folder_id=folder_id, tasks=tasks)
             else:
-                return render_template("list_tasks.html")
+                return render_template("tasks/list_tasks.html")
 
 
 @task_blueprints.route('/user/folder/task/add/<string:folder_id>', methods=['POST', 'GET'])
 def add_task(folder_id):
     if request.method == 'GET':
-        return render_template("add_task.html", folder_id=folder_id)
+        return render_template("tasks/add_task.html", folder_id=folder_id)
     else:
         folder = Folder.get_folder_by_id(folder_id)
         if folder is not None:

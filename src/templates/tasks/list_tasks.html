@@ -44,10 +44,17 @@
 {% endif %}
 
 {% if tasks|length > 0 %}
-{% for task in tasks %}
+{% for task in tasks | sort(attribute="due_date") %}
 <div class="col-md-12">
+    {% if task.is_done == true %}
+    <s>
     <a href="/user/folder/task/detail/{{task._id}}"><h4>{{ task.title }}</h4></a>
     <p>Due Date: <i class="fa fa-clock-o"></i> {{ task.due_date }}</p>
+    </s>
+    {% else %}
+    <a href="/user/folder/task/detail/{{task._id}}"><h4>{{ task.title }}</h4></a>
+    <p>Due Date: <i class="fa fa-clock-o"></i> {{ task.due_date }}</p>
+    {% endif%}
     <hr>
 </div>
 

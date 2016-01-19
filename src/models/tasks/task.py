@@ -48,7 +48,7 @@ class Task(object):
 
     @staticmethod
     def get_tasks_count(folder_id):
-        tasks = Database.find_count(TaskConstants.COLLECTION, {"folder_id": folder_id})
+        tasks = Database.find_count(TaskConstants.COLLECTION, {"folder_id": folder_id, "is_done":False})
         return tasks
 
     @classmethod
@@ -56,7 +56,7 @@ class Task(object):
         # tasks = Database.find_limit(TaskConstants.COLLECTION, {"folder_id": folder_id, "due_date": {
         #     "$lt": datetime.datetime.today().strftime("%d/%M/%Y %H:%M")}})
         #date= "new ISODate('{}')".format(datetime.datetime.utcnow().isoformat())
-        tasks = Database.find_limit(TaskConstants.COLLECTION, {"folder_id": folder_id, "due_date": {
+        tasks = Database.find_limit(TaskConstants.COLLECTION, {"folder_id": folder_id, "is_done":False,  "due_date": {
             "$gt": datetime.datetime.utcnow()}})
         if tasks is not None:
             return [cls(**task) for task in tasks]
@@ -64,7 +64,14 @@ class Task(object):
     @classmethod
     def get_previous_tasks(cls, folder_id):
         #option to return just count
-        tasks = Database.find(TaskConstants.COLLECTION, {"folder_id": folder_id, "due_date": {
+        tasks = Database.find(TaskConstants.COLLECTION, {"folder_id": folder_id, "is_done":False ,"due_date": {
             "$lt": datetime.datetime.utcnow()}})
+        if tasks is not None:
+            return [cls(**task) for task in tasks]
+
+    @classmethod
+    def get_three_tasks(cls, user_id):
+        tasks = Database.find_limit(TaskConstants.COLLECTION, {"user_id":user_id, "is_done":False ,"due_date": {
+            "$gt": datetime.datetime.utcnow()}})
         if tasks is not None:
             return [cls(**task) for task in tasks]

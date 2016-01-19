@@ -12,7 +12,7 @@ folder_blueprints = Blueprint('folders', __name__)
 
 @folder_blueprints.route('/user/folders')
 def list_folders(message=None):
-    #TODO: list ascending
+    # TODO: list ascending
     if session.get('email') is None:
         return render_template("login.html", message="You must be logged in")
     else:
@@ -24,7 +24,11 @@ def list_folders(message=None):
             if folders is not None:
                 for folder in folders:
                     tasks_list[folder] = len(Task.get_future_three_tasks(folder._id))
-                return render_template("list_folders.html", folders=tasks_list)
+                return render_template("folders/list_folders.html", folders=tasks_list)
+        elif (session.get('productivity') is not None) and (session['productivity'] == 2):
+            user = User.get_user_by_email(session['email'])
+            tasks = Task.get_three_tasks(user._id)
+            return render_template("tasks/list_level_two_tasks.html", tasks=tasks)
         else:
             user = User.get_user_by_email(session['email'])
             folders = Folder.get_folders_by_user_id(user._id)
@@ -33,9 +37,9 @@ def list_folders(message=None):
                 tasks = Task.get_tasks_count(folder._id)
                 folder_tasks_count[folder] = tasks
             if message is None:
-                return render_template("list_folders.html", folders=folder_tasks_count)
+                return render_template("folders/list_folders.html", folders=folder_tasks_count)
             else:
-                return render_template("list_folders.html", folders=folder_tasks_count, message=message)
+                return render_template("folders/list_folders.html", folders=folder_tasks_count, message=message)
 
 
 @folder_blueprints.route('/user/folder/add', methods=['POST', 'GET'])
@@ -44,7 +48,7 @@ def add_folder():
         return render_template("login.html", message="You must be logged in")
     else:
         if request.method == 'GET':
-            return render_template("add_folder.html")
+            return render_template("folders/add_folder.html")
         else:
             user = User.get_user_by_email(session['email'])
             if user is not None:
@@ -56,7 +60,7 @@ def add_folder():
                     folder.save_to_mongo()
                     return make_response(list_folders())
                 else:
-                    return render_template("add_folder.html",
+                    return render_template("folders/add_folder.html",
                                            message="Folder with the same name exist. Choose another name")
             else:
                 return render_template("login.html", message="You must be logged in to add folders")
@@ -100,7 +104,20 @@ def productivity_level_one():
     session['productivity'] = 1
     return make_response(list_folders())
 
+
 @folder_blueprints.route('/user/productivity/level1/off')
 def productivity_level_one_off():
+    session['productivity'] = None
+    return make_response(list_folders())
+
+
+@folder_blueprints.route('/user/productivity/level2')
+def productivity_level_two():
+    session['productivity'] = 2
+    return make_response(list_folders())
+
+
+@folder_blueprints.route('/user/productivity/level2/off')
+def productivity_level_two_off():
     session['productivity'] = None
     return make_response(list_folders())
