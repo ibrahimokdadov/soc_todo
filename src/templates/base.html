@@ -41,14 +41,6 @@
                         <span class="full-nav"> Folders </span>
                     </a>
                 </li>
-                <li>
-                    <a href="#">
-						<span class="small-nav" data-toggle="tooltip" data-placement="right" title="Tasks">
-							<span class="fa fa-list-ul"></span>
-						</span>
-                        <span class="full-nav"> Tasks </span>
-                    </a>
-                </li>
                 {% endif %}
                 <li>
                     <a href="#about-us">
@@ -101,22 +93,20 @@
                             </li>
                         </ul>
 
-
-                        <ul class="nav navbar-nav">
-                            <li>
-
-                                <a href="/user/tasks/view">My tasks</a>
-
-                            </li>
-                        </ul>
-
                         <ul class="navbar-form navbar-right">
-                            {% if session['productivity'] == 1 %}
+                            {% if session['productivity'] %}
                             <div class="form-group">
                                 <h4>
-                                 <span class="label label-warning">
-                                     Productivity level: <span
-                                         class="label label-default">{{session['productivity']}}</span>
+
+                                     {% if session['productivity'] == 2 %}
+                                        <span class="label label-danger">
+                                        Productivity level:
+                                        <span class="label label-default">{{session['productivity']}}</span>
+                                     {% else %}
+                                        <span class="label label-warning">
+                                        Productivity level:
+                                        <span class="label label-default">{{session['productivity']}}</span>
+                                     {% endif %}
                                  </span>
                                 </h4>
                             </div>

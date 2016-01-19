@@ -42,4 +42,4 @@ class Database(object):
 
     @staticmethod
     def find_limit(collection, query):
-        return Database.DB[collection].find(query).limit(3)
+        return Database.DB[collection].find(query).sort('due_date',pymongo.ASCENDING).limit(3)

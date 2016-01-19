@@ -22,6 +22,15 @@
                 <button class="btn btn-warning">Enable Productivity Level 1</button>
             </a>
             {% endif %}
+            {% if session['productivity'] == 2 %}
+            <a href="/user/productivity/level2/off">
+                <button class="btn btn-primary">Enable Normal Mode</button>
+            </a>
+            {% else %}
+            <a href="/user/productivity/level2">
+                <button class="btn btn-danger">Enable Productivity Level 2</button>
+            </a>
+            {% endif %}
         </div>
     </div>
 </div>

@@ -21,6 +21,7 @@ def initialize_db():
 
 @app.route('/')
 def index():
+    session['email']='ibrahim@ibrahim.com'
     return render_template("home.html")
 
 

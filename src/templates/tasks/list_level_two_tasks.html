@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container form-width">
+    <h1 class="text-center"> <i class="fa fa-list-alt"></i> Tasks </h1>
+    {% if message is defined %}
+    <h4 class="text-center"><span class="label label-danger">{{ message }}</span></h4>
+    {% endif %}
+</div>
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="col-md-12">
+            {% if session['productivity'] == 2 %}
+            <a href="/user/productivity/level2/off">
+                <button class="btn btn-primary">Enable Normal Mode</button>
+            </a>
+            {% else %}
+            <a href="/user/productivity/level2">
+                <button class="btn btn-warning">Enable Productivity Level 2</button>
+            </a>
+            {% endif %}
+            {% if session['productivity'] == 1 %}
+            <a href="/user/productivity/level1/off">
+                <button class="btn btn-primary">Enable Normal Mode</button>
+            </a>
+            {% else %}
+            <a href="/user/productivity/level1">
+                <button class="btn btn-danger">Enable Productivity Level 1</button>
+            </a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% if tasks|length > 0 %}
+{% for task in tasks %}
+<div class="col-md-12">
+    <a href="/user/folder/task/detail/{{task._id}}"><h4>{{ task.title }}</h4></a>
+    <p>Due Date: <i class="fa fa-clock-o"></i> {{ task.due_date }}</p>
+    <hr>
+</div>
+
+{% endfor %}
+{% else %}
+<h4>Looks like a desert in here.</h4>
+{% endif %}
+{% endblock %}
