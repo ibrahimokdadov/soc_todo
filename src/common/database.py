@@ -43,3 +43,7 @@ class Database(object):
     @staticmethod
     def find_limit(collection, query):
         return Database.DB[collection].find(query).sort('due_date',pymongo.ASCENDING).limit(3)
+
+    @staticmethod
+    def update_one(collection, where_query, update_query):
+        return Database.DB[collection].update_one(where_query, {"$set":update_query})

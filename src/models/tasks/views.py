@@ -1,5 +1,5 @@
 import datetime
-from flask import Blueprint, session, render_template, request, make_response
+from flask import Blueprint, session, render_template, request, make_response, jsonify
 
 from src.models.folders.folder import Folder
 from src.models.tasks.task import Task
@@ -44,6 +44,35 @@ def add_task(folder_id):
             task_due_date.isoformat()
             folder.add_task(title=task_title, description=task_description, due_date=task_due_date)
             return make_response(view_tasks(folder_id))
+
+@task_blueprints.route('/user/task/done/<int:set>')
+def add_numbers(set):
+    print(set)
+    if set is 0:
+        task_id = request.args.get('task_id')
+        task = Task.get_task_by_id(task_id)
+        if task is not None:
+            if task.mark_as_undone(task_id):
+                print(task_id)
+                return jsonify(result=task_id)
+            else:
+                return jsonify(result=False)
+        else:
+            return jsonify(result=None)
+    elif set is 1:
+        task_id = request.args.get('task_id')
+        task = Task.get_task_by_id(task_id)
+        if task is not None:
+            if task.mark_as_done(task_id):
+                return jsonify(result=task_id)
+            else:
+                return jsonify(result=False)
+        else:
+            return jsonify(result=None)
+    else:
+        return jsonify(result=None)
+
+
 
 #test method
 @task_blueprints.route('/user/productivity/one')

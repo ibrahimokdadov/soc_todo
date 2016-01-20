@@ -109,5 +109,14 @@ margin-left:25px;
 
 .large-num {
     margin-top:0px;font-size: 54px;
-    }
+}
+
+.strikethrough{
+  text-decoration:line-through;
+}
+
+.inline-display{
+display: inline-block;
+}
+
 
