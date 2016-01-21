@@ -16,8 +16,18 @@ class Task(object):
         self.is_done = is_done
         self._id = uuid.uuid4().hex if _id is None else _id
 
-    def mark_as_done(self):
-        self.is_done = True
+    @staticmethod
+    def mark_as_done(task_id):
+        result = Database.update_one(TaskConstants.COLLECTION, {"_id":task_id}, {"is_done":True})
+        if result.matched_count == 1:
+            return True
+
+    @staticmethod
+    def mark_as_undone(task_id):
+        result = Database.update_one(TaskConstants.COLLECTION, {"_id":task_id}, {"is_done":False})
+        if result.matched_count == 1:
+            return True
+
 
     def save_to_mongo(self):
         Database.insert(collection=TaskConstants.COLLECTION,
@@ -37,8 +47,9 @@ class Task(object):
 
     @classmethod
     def get_task_by_id(cls, task_id):
-        task_data = Database.find_limit(collection=TaskConstants.COLLECTION, query={'_id': task_id})
-        return cls(**task_data)
+        task_data = Database.find_one(collection=TaskConstants.COLLECTION, query={'_id': task_id})
+        if task_data is not None:
+            return cls(**task_data)
 
     @classmethod
     def get_tasks_by_folder_id(cls, folder_id):

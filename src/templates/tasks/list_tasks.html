@@ -1,5 +1,8 @@
 {% extends "base.html" %}
 {% block content %}
+<script type=text/javascript>
+  $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+</script>
 <div class="container form-width">
     <h1 class="text-center"> <i class="fa fa-list-alt"></i> Tasks </h1>
     {% if message is defined %}
@@ -46,23 +49,40 @@
 {% if tasks|length > 0 %}
 {% for task in tasks | sort(attribute="due_date") %}
 <div class="col-md-12">
+
+<div class="row">
+
     {% if task.is_done == true %}
-    <s>
-    <a href="/user/folder/task/detail/{{task._id}}"><h4>{{ task.title }}</h4></a>
-    <p>Due Date: <i class="fa fa-clock-o"></i> {{ task.due_date }}</p>
-    </s>
+
+    <span role="button" id="{{task._id}}" class="inline-display task glyphicon glyphicon-check"></span>
+
+    <a id= "a_{{task._id}}" href="/user/folder/task/detail/{{task._id}}" class="inline-display strikethrough"><h4 id="task-title">{{ task.title }}</h4></a>
+
+    <p class="inline-display" id="task-date">|due date: <i class="fa fa-clock-o"></i> {{ task.due_date }}</p>
+
     {% else %}
-    <a href="/user/folder/task/detail/{{task._id}}"><h4>{{ task.title }}</h4></a>
-    <p>Due Date: <i class="fa fa-clock-o"></i> {{ task.due_date }}</p>
+
+    <span role="button" id="{{task._id}}" class="inline-display task glyphicon glyphicon-unchecked "></span>
+
+    <a class="inline-display" id= "a_{{task._id}}" href="/user/folder/task/detail/{{task._id}}" ><h4>{{ task.title }}</h4></a>
+
+    <p class="inline-display"> |due date: <i class="fa fa-clock-o"></i> {{ task.due_date }}</p>
+
     {% endif%}
+
+</div>
     <hr>
 </div>
 
 
 {% endfor %}
+
 {% else %}
 <h4>You did not add any tasks yet; Let's get productive. add one now...</h4>
 {% endif %}
 
 
 {% endblock %}
+<script type=text/javascript>
+
+</script>
