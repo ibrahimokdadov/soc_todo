@@ -44,6 +44,17 @@ class User(object):
         else:
             return False
 
+    @classmethod
+    def login(cls, email, password):
+        user = cls.get_user_by_email(email)
+        if user is not None:
+            if user.password == password:
+                session['email'] = email
+                return True
+            return False
+        else:
+            return False
+
     def json(self):
         return {
             "email": self.email,

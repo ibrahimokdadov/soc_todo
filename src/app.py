@@ -25,6 +25,21 @@ def index():
     return render_template("home.html")
 
 
+@app.route('/login')
+def login_template():
+    return render_template("login.html")
+
+
+@app.route('/auth/login', methods=['POST'])
+def login_user():
+    email = request.form['username_email']
+    password = request.form['password']
+    if User.login(email, password) is True:
+        return make_response(list_folders())
+    else:
+        return render_template("login.html", message="Incorrect login information. Please check your email address and password.")
+
+
 @app.route('/register')
 def register_template():
     return render_template("register.html")
