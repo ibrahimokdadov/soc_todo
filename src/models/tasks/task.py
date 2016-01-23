@@ -81,6 +81,13 @@ class Task(object):
             return [cls(**task) for task in tasks]
 
     @classmethod
+    def get_previous_tasks_count(cls, folder_id):
+        #option to return just count
+        tasks = Database.find_count(TaskConstants.COLLECTION, {"folder_id": folder_id, "is_done":False ,"due_date": {
+            "$lt": datetime.datetime.utcnow()}})
+        return tasks
+
+    @classmethod
     def get_three_tasks(cls, user_id):
         tasks = Database.find_limit(TaskConstants.COLLECTION, {"user_id":user_id, "is_done":False ,"due_date": {
             "$gt": datetime.datetime.utcnow()}})

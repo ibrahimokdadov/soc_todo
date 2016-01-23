@@ -29,6 +29,25 @@ def view_tasks(folder_id):
             else:
                 return render_template("tasks/list_tasks.html")
 
+@task_blueprints.route('/user/folder/tasks/expired/<string:folder_id>')
+def view_expired_tasks(folder_id):
+    if session.get('email') is None:
+        return render_template("login.html", message="You must be logged in")
+    else:
+        if (session.get('productivity') is not None) and (session['productivity'] == 1):
+            tasks = Task.get_previous_tasks(folder_id)
+            #TODO: display passed undone tasks
+            if tasks is not None:
+                return render_template("tasks/list_tasks.html", folder_id=folder_id, tasks=tasks)
+            else:
+                return render_template("tasks/list_tasks.html")
+        else:
+            tasks = Task.get_previous_tasks(folder_id)
+            if tasks is not None:
+                return render_template("tasks/list_tasks.html", folder_id=folder_id, tasks=tasks)
+            else:
+                return render_template("tasks/list_tasks.html")
+
 
 @task_blueprints.route('/user/folder/task/add/<string:folder_id>', methods=['POST', 'GET'])
 def add_task(folder_id):
