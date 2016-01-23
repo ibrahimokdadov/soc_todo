@@ -1,4 +1,6 @@
 import collections
+import operator
+
 from flask import Blueprint, session, render_template, request, make_response
 
 from src.models.folders.folder import Folder
@@ -19,12 +21,16 @@ def list_folders(message=None):
         if (session.get('productivity') is not None) and (session['productivity'] == 1):
             user = User.get_user_by_email(session['email'])
             folders = Folder.get_folders_by_user_id(user._id)
-            tasks_list = {}
+            tasks_undone_list = {}
+            folder_expired_undone_tasks = {}
             # TODO: display passed undone tasks
             if folders is not None:
                 for folder in folders:
-                    tasks_list[folder] = len(Task.get_future_three_tasks(folder._id))
-                return render_template("folders/list_folders.html", folders=tasks_list)
+                    tasks_undone_list[folder] = len(Task.get_future_three_tasks(folder._id))
+                    folder_expired_undone_tasks[folder._id] = Task.get_previous_tasks_count(folder._id)
+                sorted_list= sorted(tasks_undone_list.items(), key=operator.itemgetter(1), reverse=True)
+
+                return render_template("folders/list_folders.html", folders=sorted_list, expired=folder_expired_undone_tasks)
         elif (session.get('productivity') is not None) and (session['productivity'] == 2):
             user = User.get_user_by_email(session['email'])
             tasks = Task.get_three_tasks(user._id)
@@ -32,14 +38,16 @@ def list_folders(message=None):
         else:
             user = User.get_user_by_email(session['email'])
             folders = Folder.get_folders_by_user_id(user._id)
-            folder_tasks_count = {}
+            folder_undone_tasks_count = {}
+            folder_expired_undone_tasks={}
             for folder in folders:
-                tasks = Task.get_tasks_count(folder._id)
-                folder_tasks_count[folder] = tasks
+                folder_undone_tasks_count[folder] = Task.get_tasks_count(folder._id)
+                folder_expired_undone_tasks[folder._id] = Task.get_previous_tasks_count(folder._id)
+            sorted_list= sorted(folder_undone_tasks_count.items(), key=operator.itemgetter(1), reverse=True)
             if message is None:
-                return render_template("folders/list_folders.html", folders=folder_tasks_count)
+                return render_template("folders/list_folders.html", folders=sorted_list, expired=folder_expired_undone_tasks)
             else:
-                return render_template("folders/list_folders.html", folders=folder_tasks_count, message=message)
+                return render_template("folders/list_folders.html", folders=sorted_list, expired=folder_expired_undone_tasks,  message=message)
 
 
 @folder_blueprints.route('/user/folder/add', methods=['POST', 'GET'])
