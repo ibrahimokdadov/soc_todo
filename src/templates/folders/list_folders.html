@@ -5,6 +5,7 @@
     {% if message is defined %}
     <h4 class="text-center"><span class="label label-danger">{{ message }}</span></h4>
     {% endif %}
+    <h4 class="text-center"><span id="msg" class="label label-warning"></span></h4>
 </div>
 <div class="panel panel-default">
     <div class="panel-body">
@@ -54,7 +55,7 @@
 
                     <div class="col-md-8 col-md-pull-4">
                         <a href="/user/folder/tasks/{{folder[0]._id}}">
-                            <h2>{{ folder[0].title }} <a href="#" id="x-folder-title-{{folder[0].title}}" data-type="text"
+                            <h2 id="h-folder-title-{{folder[0].title}}">{{ folder[0].title }} <a href="#" id="x-folder-title-{{folder[0].title}}" data-type="text"
                                                       data-url="/user/folder/update/title"
                                                       data-pk="{{folder[0]._id}}"
                                                       data-title="Changing folder title"><i
@@ -65,6 +66,9 @@
                         $('#x-folder-title-'+'{{folder[0].title}}').editable({
                                 placement: "top",
                                 success: function(response, newValue) {
+                                        var x = this.id;
+                                        x= x.replace('x-folder-title-', 'h-folder-title-');
+                                        document.getElementById(x).innerHTML = newValue;
                                         location.reload();
                                     },
                                 error: function (errors) {
@@ -98,9 +102,14 @@
                     </div>
 
                     <script>
+                    $.fn.editable.defaults.mode = 'inline';
                     $('#x-folder-description-'+'{{folder[0].title}}').editable({
                             placement: "right",
                             error: function (errors) {
+                            },
+                            success: function(response, newValue){
+                            document.getElementById('msg').innerHTML = 'Description Updated Successfully';
+
                             }
                         });
 
