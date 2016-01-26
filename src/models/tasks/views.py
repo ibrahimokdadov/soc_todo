@@ -17,7 +17,6 @@ def view_tasks(folder_id):
     else:
         if (session.get('productivity') is not None) and (session['productivity'] == 1):
             tasks = Task.get_future_three_tasks(folder_id)
-            # TODO: display passed undone tasks
             if tasks is not None:
                 return render_template("tasks/list_tasks.html", folder_id=folder_id, tasks=tasks)
             else:
@@ -37,7 +36,6 @@ def view_expired_tasks(folder_id):
     else:
         if (session.get('productivity') is not None) and (session['productivity'] == 1):
             tasks = Task.get_previous_tasks(folder_id)
-            # TODO: display passed undone tasks
             if tasks is not None:
                 return render_template("tasks/list_tasks.html", folder_id=folder_id, tasks=tasks)
             else:
@@ -73,7 +71,6 @@ def mark_done(set):
         task = Task.get_task_by_id(task_id)
         if task is not None:
             if task.mark_as_undone(task_id):
-                print(task_id)
                 return jsonify(result=task_id)
             else:
                 return jsonify(result=False)

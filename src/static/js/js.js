@@ -9,8 +9,6 @@ $('#deletionModal').on('shown.bs.modal', function () {
  $('.task').each(function(){
 
         $(this).click(function(){
-
-
         if ( $( this ).hasClass( "glyphicon-check" ) ) {
             $.getJSON($SCRIPT_ROOT + '/user/task/done/0', {
             task_id: this.id
@@ -18,11 +16,10 @@ $('#deletionModal').on('shown.bs.modal', function () {
             }, function(data) {
               var id = data.result
               if (id == false){
-              //TODO: show proper message in block
-              alert("could not mark as done");
+              document.getElementById('msg').innerHTML = 'Ops, Could not mark task as done; kindly contact us';
               }
               else if (id == null){
-                alert("Task was not found");
+                document.getElementById('msg').innerHTML = 'Alright, here is the thing. The task was not found';
               }
               else{
               var x="a_"+id;
@@ -34,7 +31,7 @@ $('#deletionModal').on('shown.bs.modal', function () {
                     //location.reload();
                     }
                     else{
-                    alert("Strikethrough does not exist");
+                    document.getElementById('msg').innerHTML = 'Out of ink. We have an issue marking this as done';
                     }
                 }
               });
@@ -49,11 +46,10 @@ $('#deletionModal').on('shown.bs.modal', function () {
               }, function(data) {
               var id = data.result
                   if (id == false){
-                  //TODO: show proper message in block
-                    alert("could not mark as done");
+                    document.getElementById('msg').innerHTML = 'Ops, Could not mark task as done; kindly contact us';
                   }
                   else if (id == null){
-                    alert("Task was not found");
+                    document.getElementById('msg').innerHTML = 'Alright, here is the thing. The task was not found';
                   }
                   else{
                   var x="a_"+id;
