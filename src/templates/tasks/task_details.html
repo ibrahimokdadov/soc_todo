@@ -16,15 +16,17 @@
     <h1 class="center-block"><a href="#" id="x-title" data-type="text" data-url="/user/folder/task/update/title"
                                 data-pk="{{task._id}}" data-title="Change your title"> {{task.title}} </a> 's details
     </h1>
-
+    <p>Created Date:{{task.date_created.strftime('%Y-%m-%d @ %H:%M')}}</p>
     <p>Description: <a href="#" id="x-description" data-type="textarea" data-url="/user/folder/task/update/description"
                        data-pk="{{task._id}}"
                        data-title="Change your description">{{ task.description }}</a></p>
 
+
     <p>Due Date:
     <a href="#" id="event" data-type="combodate" data-url= "/user/folder/task/update/due_date" data-template="YYYY MMM D HH:mm" data-format="YYYY-MM-DD HH:mm"
-       data-viewformat="YYYY-MM-DD HH:mm" data-pk="{{task._id}}" data-title="Setup event date and time">{{ task.due_date }}</a>
+       data-viewformat="YYYY-MM-DD @ HH:mm" data-pk="{{task._id}}" data-title="Setup event date and time">{{ task.due_date.strftime('%Y-%m-%d @ %H:%M') }}</a>
     </p>
+
     <hr>
         </div>
 

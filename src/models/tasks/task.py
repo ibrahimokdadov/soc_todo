@@ -7,7 +7,7 @@ import src.models.tasks.constants as TaskConstants
 
 
 class Task(object):
-    def __init__(self, title, description, due_date, folder_id, user_id, is_done=False, _id=None):
+    def __init__(self, title, description, due_date, folder_id, user_id, is_done=False, _id=None, date_created=datetime.datetime.utcnow()):
         self.title = title
         self.description = description
         self.due_date = due_date
@@ -15,6 +15,7 @@ class Task(object):
         self.user_id = user_id
         self.is_done = is_done
         self._id = uuid.uuid4().hex if _id is None else _id
+        self.date_created=date_created
 
     @staticmethod
     def mark_as_done(task_id):
@@ -40,7 +41,8 @@ class Task(object):
             'folder_id': self.folder_id,
             'user_id': self.user_id,
             'is_done': self.is_done,
-            '_id': self._id
+            '_id': self._id,
+            'date_created': self.date_created
         }
         return data
 
