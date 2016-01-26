@@ -17,14 +17,16 @@ def view_tasks(folder_id):
     else:
         if (session.get('productivity') is not None) and (session['productivity'] == 1):
             tasks = Task.get_future_three_tasks(folder_id)
+            folder = Folder.get_folder_by_id(folder_id)
             if tasks is not None:
-                return render_template("tasks/list_tasks.html", folder_id=folder_id, tasks=tasks)
+                return render_template("tasks/list_tasks.html", folder_id=folder_id, folder_name=folder.title, tasks=tasks)
             else:
                 return render_template("tasks/list_tasks.html")
         else:
             tasks = Task.get_tasks_by_folder_id(folder_id)
+            folder = Folder.get_folder_by_id(folder_id)
             if tasks is not None:
-                return render_template("tasks/list_tasks.html", folder_id=folder_id, tasks=tasks)
+                return render_template("tasks/list_tasks.html", folder_id=folder_id, folder_name=folder.title, tasks=tasks)
             else:
                 return render_template("tasks/list_tasks.html")
 

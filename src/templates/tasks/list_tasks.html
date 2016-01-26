@@ -6,20 +6,25 @@
 
 </script>
 <div class="container form-width">
-    <h1 class="text-center"><i class="fa fa-list-alt"></i> Tasks </h1>
+    <h1 class="text-center"><i class="fa fa-list-alt"></i> {{folder_name}} Tasks </h1>
     {% if message is defined %}
     <h4 class="text-center"><span class="label label-danger">{{ message }}</span></h4>
     {% endif %}
     <h4 class="text-center"><span id="msg" class="label label-warning"></span></h4>
 </div>
+<ol class="breadcrumb">
+  <li><a href="/user/folders">Folders</a></li>
+  <li><a href="/user/folder/tasks/{{folder_id}}">{{folder_name}}</a></li>
+  <li class="active">tasks</li>
+</ol>
 {% if folder_id %}
 <div class="panel panel-default">
     <div class="panel-body">
         <div class="col-md-12">
             <a href="/user/folder/task/add/{{folder_id}}">
-                <button class="btn btn-success">Add Task</button>
+                <button class="btn btn-success"> <i class="fa fa-plus"></i> Add Task</button>
             </a>
-            <button type="button" class="btn btn-danger btn" data-toggle="modal" data-target="#deletionModal">
+            <button type="button" class="btn btn-danger btn" data-toggle="modal" data-target="#deletionModal"> <i class="fa fa-trash"></i>
                 Delete this folder
             </button>
 
@@ -61,7 +66,7 @@
         <a class="inline-display" id="a_{{task._id}}" href="/user/folder/task/detail/{{task._id}}"><h4>{{ task.title
             }}</h4></a>
 
-        <p class="inline-display"> |due date: <i class="fa fa-clock-o"></i> {{ task.due_date.strftime('%Y-%m-%d @
+        <p class="inline-display"> </p> <p> due date: <i class="fa fa-clock-o"></i> {{ task.due_date.strftime('%Y-%m-%d @
             %H:%M') }}</p>
     </div>
     <hr>
@@ -86,7 +91,7 @@
         <a id="a_{{task._id}}" href="/user/folder/task/detail/{{task._id}}" class="inline-display strikethrough"><h4
                 id="task-title">{{ task.title }}</h4></a>
 
-        <p class="inline-display" id="task-date">|due date: <i class="fa fa-clock-o"></i> {{
+        <p class="inline-display" id="task-date"> </p> <p> Due date: <i class="fa fa-clock-o"></i> {{
             task.due_date.strftime('%Y-%m-%d @ %H:%M') }}</p>
 
     </div>
