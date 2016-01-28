@@ -97,3 +97,6 @@ class Task(object):
 
     def update_task(self, attribute_name, attribute_value):
         Database.update_one(TaskConstants.COLLECTION, {"_id": self._id}, {attribute_name: attribute_value})
+
+    def remove_task(self):
+        Database.remove(TaskConstants.COLLECTION, {"_id": self._id})

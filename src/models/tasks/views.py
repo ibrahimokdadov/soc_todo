@@ -11,7 +11,7 @@ task_blueprints = Blueprint('tasks', __name__)
 
 
 @task_blueprints.route('/user/folder/tasks/<string:folder_id>')
-def view_tasks(folder_id):
+def view_tasks(folder_id, message=None):
     if session.get('email') is None:
         return render_template("login.html", message="You must be logged in")
     else:
@@ -26,9 +26,17 @@ def view_tasks(folder_id):
             tasks = Task.get_tasks_by_folder_id(folder_id)
             folder = Folder.get_folder_by_id(folder_id)
             if tasks is not None:
-                return render_template("tasks/list_tasks.html", folder_id=folder_id, folder_name=folder.title, tasks=tasks)
+                if message is not None:
+                    return render_template("tasks/list_tasks.html", folder_id=folder_id, folder_name=folder.title,
+                                           tasks=tasks, message=message)
+                else:
+                    return render_template("tasks/list_tasks.html", folder_id=folder_id, folder_name=folder.title,
+                                           tasks=tasks)
             else:
-                return render_template("tasks/list_tasks.html")
+                if message is not None:
+                    return render_template("tasks/list_tasks.html", message=message)
+                else:
+                    return render_template("tasks/list_tasks.html")
 
 
 @task_blueprints.route('/user/folder/tasks/expired/<string:folder_id>')
@@ -127,6 +135,23 @@ def update_due_date():
     task.update_task("due_date", task_due_date)
     return render_template("tasks/task_details.html", task=task)
 
+
+@task_blueprints.route('/user/folder/task/remove/<string:task_id>')
+def remove_task(task_id):
+    if session.get('email') is not None:
+        task = Task.get_task_by_id(task_id)
+        if task is not None:
+            user = User.get_user_by_email(session['email'])
+            if user is not None:
+                if user._id == task.user_id:
+                    task.remove_task()
+                    return make_response(view_tasks(task.folder_id))
+                else:
+                    return make_response(view_tasks(task.folder_id))
+            else:
+                return render_template("login.html", message="You must be logged-in to delete task.")
+    else:
+        return render_template("login.html", message="You must be logged-in to delete task.")
 
 # test method
 @task_blueprints.route('/user/productivity/one')
