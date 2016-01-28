@@ -69,7 +69,7 @@
         <p class="inline-display"> </p> <p> due date: <i class="fa fa-clock-o"></i> {{ task.due_date.strftime('%Y-%m-%d @
             %H:%M') }}</p>
     </div>
-    <hr>
+    <hr class="marginRow">
     {% endif%}
 
 
@@ -88,14 +88,14 @@
     <div class="row">
         <span role="button" id="{{task._id}}" class="inline-display task glyphicon glyphicon-check"></span>
 
-        <a id="a_{{task._id}}" href="/user/folder/task/detail/{{task._id}}" class="inline-display strikethrough"><h4
+        <a id="a_{{task._id}}" href="/user/folder/task/detail/{{task._id}}" class="inline-display strikethrough color-grey"><h4
                 id="task-title">{{ task.title }}</h4></a>
 
         <p class="inline-display" id="task-date"> </p> <p> Due date: <i class="fa fa-clock-o"></i> {{
             task.due_date.strftime('%Y-%m-%d @ %H:%M') }}</p>
 
     </div>
-    <hr>
+    <hr class="marginRow">
     {% endif%}
 
 

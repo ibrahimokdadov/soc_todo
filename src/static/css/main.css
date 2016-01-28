@@ -126,3 +126,11 @@ display: inline-block;
 * {
   border-radius: 0 !important;
 }
+
+.color-grey{
+color:grey;
+}
+
+.marginRow{
+   margin:0px !important;
+   }
